@@ -40,7 +40,7 @@ cancel(){
 mainloop(){
    
     echo "[DEPLOY INFO] Selecting Kubernetes cluster"
-    #kubectl config use-context ${KUBE_CONTEXT}
+    kubectl config use-context ${KUBE_CONTEXT}
 
     echo "[DEPLOY INFO] Locating current version"
     CURRENT_VERSION=$(kubectl get service $SERVICE_NAME -o=jsonpath='{.spec.selector.version}' --namespace=${NAMESPACE}) 
@@ -77,8 +77,8 @@ else
     echo "USAGE\n k8s-blue-green-rollout.sh [SERVICE_NAME] [DEPLOYMENT_NAME] [NEW_IMAGE] [HEALTH_COMMAND] [HEALTH_SECONDS] [NAMESPACE]"
     echo "\t [SERVICE_NAME] - Name of the current service"
     echo "\t [DEPLOYMENT_NAME] - The name of the current deployment"
-    echo "\t [NEW_VERSION] - The name of the new Docker image."
-    echo "\t [HEALTH_COMMAND] - command to use as a health check"
+    echo "\t [NEW_VERSION] - The next version of the Docker image"
+    echo "\t [HEALTH_COMMAND] - command to use as a health check (unused)"
     echo "\t [HEALTH_SECONDS] - Time to wait before checking health"
     echo "\t [NAMESPACE] - Namespace of the application"
     exit 1;
