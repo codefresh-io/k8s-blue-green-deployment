@@ -4,12 +4,28 @@
 healthcheck(){
     echo "[DEPLOY INFO] Starting Heathcheck"
 
-    #if `false` then
-    #    echo "[DEPLOY HEALTH] New color is unhealthy"
-    #    cancel
-    #else
-        echo "[DEPLOY HEALTH] Service healthy."
-    #fi
+   h=true
+    
+    #Start custom healthcheck
+    output=$(kubectl get pods -l version="$NEW_VERSION" -n $NAMESPACE --no-headers)
+    echo "Got $output"
+    s=($(echo "$output" | awk '{s+=$4}END{print s}'))
+    c=($(echo "$output" | wc -l))
+
+    if [ "$s" -gt "2" ]; then
+        h=false
+    fi
+    ##if [ "$c" -lt "1" ]; then
+    ##    h=false
+    ##fi
+    #End custom healthcheck
+
+    if [ ! $h == true ]; then
+        echo "[DEPLOY HEALTH] New color is unhealthy"
+        cancel
+    else
+        echo "[DEPLOY HEALTH] New color is healthy."
+fi
 }
 
 cancel(){
