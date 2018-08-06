@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: trivial-c39f076
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: trivial
+        app: trivial
+        version: c39f076
+    spec:
+      containers:
+      - name: trivial-web
+        image: r.cfcr.io/kostis-codefresh/trivial-web:c39f076
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+      imagePullSecrets:
+        - name: codefresh-generated-r.cfcr.io-cfcr-colors
