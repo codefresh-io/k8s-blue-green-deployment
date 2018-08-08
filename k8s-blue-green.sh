@@ -4,7 +4,7 @@
 healthcheck(){
     echo "[DEPLOY INFO] Starting Heathcheck"
 
-   h=true
+    h=true
     
     #Start custom healthcheck
     output=$(kubectl get pods -l version="$NEW_VERSION" -n $NAMESPACE --no-headers)
@@ -25,7 +25,7 @@ healthcheck(){
         cancel
     else
         echo "[DEPLOY HEALTH] New color is healthy."
-fi
+    fi
 }
 
 cancel(){
@@ -44,6 +44,11 @@ mainloop(){
 
     echo "[DEPLOY INFO] Locating current version"
     CURRENT_VERSION=$(kubectl get service $SERVICE_NAME -o=jsonpath='{.spec.selector.version}' --namespace=${NAMESPACE}) 
+
+    if [ "$CURRENT_VERSION" == "$NEW_VERSION" ]; then
+       echo "[DEPLOY NOP] NEW_VERSION is same as CURRENT_VERSION. Both are at $CURRENT_VERSION"
+       exit 0
+    fi    
     
     echo "[DEPLOY NEW COLOR] Creating next version"
     kubectl get deployment $DEPLOYMENT_NAME-$CURRENT_VERSION -o=yaml --namespace=${NAMESPACE} | sed -e "s/$CURRENT_VERSION/$NEW_VERSION/g" | kubectl apply --namespace=${NAMESPACE} -f -
