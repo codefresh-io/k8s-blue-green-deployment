@@ -1,0 +1,23 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: trivial-web
+    working_directory: ./example/
+    tag: '${{CF_SHORT_REVISION}}'
+    dockerfile: Dockerfile
+  blueGreenDeploy:
+    description: "deploying new version ${{CF_SHORT_REVISION}}"
+    image: r.cfcr.io/kostis-codefresh/k8s-blue-green:master
+    environment:
+      - SERVICE_NAME=trivial
+      - DEPLOYMENT_NAME=trivial
+      - NEW_VERSION=${{CF_SHORT_REVISION}}
+      - HEALTH_SECONDS=30
+      - NAMESPACE=colors
+      - KUBE_CONTEXT=myDemoAKSCluster
+
+   
+
+  
