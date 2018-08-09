@@ -1,26 +1,26 @@
 # Kubernetes blue green deployments
 
-This repository holds a bash script that allows you to perform blue/green deployments on a Kubernetes cluster
+This repository holds a bash script that allows you to perform blue/green deployments on a Kubernetes cluster.
 
 ## Description
 
-The script expects you to have an existing deployment and service on your K8s cluster. Once you run it it
+The script expects you to have an existing deployment and service on your K8s cluster. It does the following:
 
 1. Finds the current deployment (by looking at the selector of the service)
 1. Copies the old deployment to a new one changing the Docker image to the new version
 1. Applies the new deployment on the cluster. At this point both deployments co-exist
 1. Waits for a configurable amount of seconds
-1. Checks the health of the new pods. If there are restarts, it considers the new deploymenet unhealthy. In that case it removes it and the cluster is unaffected by the deployment
+1. Checks the health of the new pods. If there are restarts, it considers the new deployment unhealthy. In that case it removes it and the cluster is unaffected by the deployment
 1. If the health is ok it swiches the service to point to the new deployment
 1. It removes the old deployment
 
-Of course during the wait period where both deployments are active, you are free to run your own additional
+Of course during the wait period when both deployments are active, you are free to run your own additional
 checks or integration tests to see if the new deployment is ok.
 
 
 ## How to use the script on its own
 
-The script needs one environment variable called `KUBE_CONTEXT` that selects the K8s that will be used (if you have more than one)
+The script needs one environment variable called `KUBE_CONTEXT` that selects the K8s cluster that will be used (if you have more than one)
 
 The rest of the parameters are provided as command line arguments
 
@@ -33,16 +33,16 @@ The rest of the parameters are provided as command line arguments
 | Health seconds | 5          | Time where both deployments will co-exist |
 | Namespace |     6           | Kubernetes namespace that will be used |
 
-Here is an example
+Here is an example:
 
 ```
 ./k8s-blue-green.sh myService myApp 73df943 true 30 my-namespace
 ```
 
-In order for the script to work your service and deployment should have a `version` tag that is used as a selector.
-This is what the script is using in order to detect the current version and in order to deploy the next one.
+In order for the script to work, your service and deployment should have a `version` label that is used as a selector.
+This is what the script is using to detect the current version and in order to deploy the next one.
 
-You can see examples of the tags with sample application
+You can see examples of the tags with the sample application:
 
 * [service](example/service.yml)
 * [deployment](example/deployment.yml)
@@ -51,7 +51,7 @@ You can see examples of the tags with sample application
 
 The script also comes with a Dockerfile that allows you to use it as a Docker image in any Docker based workflow such as Codefresh.
 
-For the `KUBE_CONTEXT` environment variable just was the name of your cluster as found in the Codefresh Kubernetes dashboard. For the rest of the argument you need to define them as parameters in your [codefresh.yml](example/codefresh.yml) file.
+For the `KUBE_CONTEXT` environment variable just use the name of your cluster as found in the Codefresh Kubernetes dashboard. For the rest of the arguments you need to define them as parameters in your [codefresh.yml](example/codefresh.yml) file.
 
 ```
   blueGreenDeploy:
@@ -66,13 +66,13 @@ For the `KUBE_CONTEXT` environment variable just was the name of your cluster as
       - KUBE_CONTEXT=myDemoAKSCluster
 ```
 
-The `CF_SHORT_REVISION` variable is offered by Codefresh and contains the git hash of the version. See all variables in the [official documentation](https://codefresh.io/docs/docs/codefresh-yaml/variables/)
+The `CF_SHORT_REVISION` variable is offered by Codefresh and contains the git hash of the version that was just pushed. See all variables in the [official documentation](https://codefresh.io/docs/docs/codefresh-yaml/variables/)
 
 ## Future work
 
 Further improvements
 
-* Make the script create an initial deployment/service if nothing is deployment in the kubernetes cluster
-* All more complex and configurable healthchecks
+* Make the script create an initial deployment/service if nothing is deployed in the kubernetes cluster
+* Add more complex and configurable healthchecks
 
 
