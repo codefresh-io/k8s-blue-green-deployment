@@ -79,7 +79,7 @@ if [ "$1" != "" ] && [ "$2" != "" ] && [ "$3" != "" ] && [ "$4" != "" ] && [ "$5
     NAMESPACE=$6
 else
     
-    echo "USAGE\n k8s-blue-green-rollout.sh [SERVICE_NAME] [DEPLOYMENT_NAME] [NEW_IMAGE] [HEALTH_COMMAND] [HEALTH_SECONDS] [NAMESPACE]"
+    echo "USAGE\n k8s-blue-green-rollout.sh [SERVICE_NAME] [DEPLOYMENT_NAME] [NEW_VERSION] [HEALTH_COMMAND] [HEALTH_SECONDS] [NAMESPACE]"
     echo "\t [SERVICE_NAME] - Name of the current service"
     echo "\t [DEPLOYMENT_NAME] - The name of the current deployment"
     echo "\t [NEW_VERSION] - The next version of the Docker image"
