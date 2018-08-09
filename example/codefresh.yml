@@ -8,7 +8,7 @@ steps:
     tag: '${{CF_SHORT_REVISION}}'
     dockerfile: Dockerfile
   blueGreenDeploy:
-    description: "deploying new version ${{CF_SHORT_REVISION}}"
+    title: "Deploying new version ${{CF_SHORT_REVISION}}"
     image: r.cfcr.io/kostis-codefresh/k8s-blue-green:master
     environment:
       - SERVICE_NAME=trivial
