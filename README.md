@@ -1,6 +1,7 @@
 # Kubernetes blue green deployments
 
 This repository holds a bash script that allows you to perform blue/green deployments on a Kubernetes cluster.
+See also the respective [blog post](https://codefresh.io/kubernetes-tutorial/fully-automated-blue-green-deployments-kubernetes-codefresh/)
 
 ## Description
 
@@ -56,7 +57,7 @@ For the `KUBE_CONTEXT` environment variable just use the name of your cluster as
 ```
   blueGreenDeploy:
     title: "Deploying new version ${{CF_SHORT_REVISION}}"
-    image: r.cfcr.io/kostis-codefresh/k8s-blue-green:master
+    image: codefresh/k8s-blue-green:master
     environment:
       - SERVICE_NAME=trivial
       - DEPLOYMENT_NAME=trivial
@@ -67,6 +68,12 @@ For the `KUBE_CONTEXT` environment variable just use the name of your cluster as
 ```
 
 The `CF_SHORT_REVISION` variable is offered by Codefresh and contains the git hash of the version that was just pushed. See all variables in the [official documentation](https://codefresh.io/docs/docs/codefresh-yaml/variables/)
+
+## Dockerhub
+The blue/green step is now deployed in dockerhub as well
+
+https://hub.docker.com/r/codefresh/k8s-blue-green/
+
 
 ## Future work
 
