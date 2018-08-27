@@ -14,7 +14,7 @@ steps:
       - SERVICE_NAME=my-demo-app
       - DEPLOYMENT_NAME=my-demo-app
       - NEW_VERSION=${{CF_SHORT_REVISION}}
-      - HEALTH_SECONDS=30
+      - HEALTH_SECONDS=60
       - NAMESPACE=colors
       - KUBE_CONTEXT=myDemoAKSCluster
 

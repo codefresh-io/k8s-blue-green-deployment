@@ -12,11 +12,27 @@ The script expects you to have an existing deployment and service on your K8s cl
 1. Applies the new deployment on the cluster. At this point both deployments co-exist
 1. Waits for a configurable amount of seconds
 1. Checks the health of the new pods. If there are restarts, it considers the new deployment unhealthy. In that case it removes it and the cluster is unaffected by the deployment
-1. If the health is ok it swiches the service to point to the new deployment
+1. If the health is ok it switches the service to point to the new deployment
 1. It removes the old deployment
 
 Of course during the wait period when both deployments are active, you are free to run your own additional
 checks or integration tests to see if the new deployment is ok.
+
+## Prerequisites
+
+As a convention the script expects
+
+1. The name of your deployment to be $APP_NAME-$VERSION
+1. Your deployment should have a label that shows it version
+1. Your service should point to the deployment by using *both* a version and label
+
+Notice that the new color deployment created by the script will follow the same conventions. This
+way each subsequent pipeline you run will work in the same manner.
+
+You can see examples of the tags with the sample application:
+
+* [service](example/service.yml)
+* [deployment](example/deployment.yml)
 
 
 ## How to use the script on its own
@@ -40,13 +56,7 @@ Here is an example:
 ./k8s-blue-green.sh myService myApp 73df943 true 30 my-namespace
 ```
 
-In order for the script to work, your service and deployment should have a `version` label that is used as a selector.
-This is what the script is using to detect the current version and in order to deploy the next one.
 
-You can see examples of the tags with the sample application:
-
-* [service](example/service.yml)
-* [deployment](example/deployment.yml)
 
 ## How to do Blue/Green deployments in Codefresh
 
@@ -59,10 +69,10 @@ For the `KUBE_CONTEXT` environment variable just use the name of your cluster as
     title: "Deploying new version ${{CF_SHORT_REVISION}}"
     image: codefresh/k8s-blue-green:master
     environment:
-      - SERVICE_NAME=trivial
-      - DEPLOYMENT_NAME=trivial
+      - SERVICE_NAME=my-demo-app
+      - DEPLOYMENT_NAME=my-demo-app
       - NEW_VERSION=${{CF_SHORT_REVISION}}
-      - HEALTH_SECONDS=30
+      - HEALTH_SECONDS=60
       - NAMESPACE=colors
       - KUBE_CONTEXT=myDemoAKSCluster
 ```
