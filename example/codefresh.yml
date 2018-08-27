@@ -9,10 +9,10 @@ steps:
     dockerfile: Dockerfile
   blueGreenDeploy:
     title: "Deploying new version ${{CF_SHORT_REVISION}}"
-    image: r.cfcr.io/kostis-codefresh/k8s-blue-green:master
+    image: codefresh/k8s-blue-green:master
     environment:
-      - SERVICE_NAME=trivial
-      - DEPLOYMENT_NAME=trivial
+      - SERVICE_NAME=my-demo-app
+      - DEPLOYMENT_NAME=my-demo-app
       - NEW_VERSION=${{CF_SHORT_REVISION}}
       - HEALTH_SECONDS=30
       - NAMESPACE=colors
