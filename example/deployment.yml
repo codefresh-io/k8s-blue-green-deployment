@@ -10,7 +10,7 @@ spec:
       labels:
         name: my-demo-app
         app: my-demo-app
-        version: c39f076
+        version: 'c39f076'
     spec:
       containers:
       - name: my-demo-app
