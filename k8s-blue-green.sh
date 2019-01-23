@@ -40,7 +40,7 @@ cancel(){
 mainloop(){
    
     echo "[DEPLOY INFO] Selecting Kubernetes cluster"
-    kubectl config use-context ${KUBE_CONTEXT}
+    kubectl config use-context "${KUBE_CONTEXT}"
 
     echo "[DEPLOY INFO] Locating current version"
     CURRENT_VERSION=$(kubectl get service $SERVICE_NAME -o=jsonpath='{.spec.selector.version}' --namespace=${NAMESPACE}) 
