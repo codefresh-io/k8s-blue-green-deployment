@@ -24,7 +24,7 @@ As a convention the script expects
 
 1. The name of your deployment to be $APP_NAME-$VERSION
 1. Your deployment should have a label that shows it version
-1. Your service should point to the deployment by using *both* a version and label
+1. Your service should point to the deployment by using a `version` selector, pointing to the corresponding label in the deployment
 
 Notice that the new color deployment created by the script will follow the same conventions. This
 way each subsequent pipeline you run will work in the same manner.
