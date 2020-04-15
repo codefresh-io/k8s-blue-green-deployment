@@ -44,7 +44,7 @@ The rest of the parameters are provided as command line arguments
 | Parameter | Argument Number | Description     |
 | ----------| --------------- | --------------- |
 | Service   |         1       | Name of the existing service |
-| Deployment |        2       | Name of the existing deployment |
+| Deployment |        2       | Name of the existing deployment app |
 | New version |       3       | Tag of the new docker image    |
 | Health command |   4        | Currently unused       |
 | Health seconds | 5          | Time where both deployments will co-exist |
